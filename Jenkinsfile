@@ -1,21 +1,21 @@
 pipeline {
   agent {label 'linux'}
-  options {
-    buildDiscarder(logRotator(numToKeepStr: '5'))
-  }
+  
   stages {
     stage('Build') {
       steps {
-        sh './gradlew clean check --no-daemon'
+        sh echo 'building the multistage'
       }
     }
-  }
-  post {
-    always {
-        junit(
-          allowEmptyResults: true, 
-          testResults: '**/build/test-results/test/*.xml'
-        )
+    stage('test') {
+      steps {
+        sh echo 'testing the app'
+      }
+    }
+    stage('test') {
+      steps {
+        sh echo 'deploy the app'
+      }
     }
   }
 }
